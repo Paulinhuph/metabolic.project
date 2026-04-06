@@ -7,11 +7,11 @@
     --white: #ffffff;
 }
 
-/* 1. RESET E GOVERNANÇA DE BOX MODEL */
+/* CORREÇÃO CRITICAL: Impede que padding e bordas "estourem" o tamanho dos elementos */
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box; /* Crucial para não quebrar no celular */
+    box-sizing: border-box;
 }
 
 body {
@@ -21,58 +21,88 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 15px; /* Respiro lateral para o mobile */
-    overflow-x: hidden; 
+    /* Ajuste de padding: 40px no topo/base, 15px nas laterais para não encostar no vidro do celular */
+    padding: 40px 15px; 
+    overflow-x: hidden;
 }
 
-/* 2. CABEÇALHO DA MARCA */
 .marca-topo {
-    width: 100%;
+    width: 100%; /* Mudado de 95% para 100% para controle total via max-width */
     max-width: 1100px;
-    margin-bottom: 25px;
-    text-align: center; /* Mobile First: Centralizado */
+    margin-bottom: 30px;
 }
 
 .marca-topo h1 {
-    font-size: 1.1rem;
+    font-size: 1.2rem;
     font-weight: 900;
     color: var(--text-dark);
     text-transform: uppercase;
     letter-spacing: 2px;
 }
 
-/* 3. ESTRUTURA PRINCIPAL (GRID RESPONSIVO) */
+.header-interno h2 {
+    font-size: 2rem;
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 5px;
+    color: var(--text-dark);
+}
+
 main {
     display: grid;
-    grid-template-columns: 1fr; /* Mobile First: Uma coluna */
-    gap: 20px;
+    /* No desktop mantém seus 400px, no mobile o 1fr da media query assume */
+    grid-template-columns: 400px 1fr; 
+    gap: 30px;
     width: 100%;
     max-width: 1100px;
 }
 
-/* 4. PAINEL DE ENTRADA */
+@media (max-width: 900px) {
+    main {
+        grid-template-columns: 1fr; 
+        margin: 20px 0;
+    }
+
+    #resultado {
+        padding: 40px 20px !important; /* Força o respiro menor no mobile */
+    }
+
+    #get-valor {
+        font-size: 4.5rem !important; /* Reduz um pouco mais para não vazar */
+    }
+    
+    .marca-topo {
+        text-align: center;
+    }
+}
+
+/* PAINEL DA ESQUERDA (FORMULÁRIO) */
 #formulario-saude {
     background-color: var(--panel-gray);
-    padding: 30px 20px;
+    padding: 40px;
     border-radius: 24px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    width: 100%; /* Garante que ocupe a coluna do grid */
 }
 
-.header-interno h1 {
-    font-size: 1.5rem;
-    font-weight: 900;
-    color: var(--text-dark);
-}
+@media (max-width: 500px) {
+    #formulario-saude {
+        padding: 25px; /* Reduz padding interno para ganhar espaço no teclado do celular */
+    }
 
-/* 5. INPUTS E SELETORES */
-.input-group { display: flex; flex-direction: column; gap: 8px; }
+    .grid-duplo {
+        grid-template-columns: 1fr;
+    }
 
-.grid-duplo {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
+    .header-interno h1 {
+        font-size: 1.4rem;
+    }
+    
+    #get-valor {
+        font-size: 3.5rem !important;
+    }
 }
 
 .input-wrapper {
@@ -90,73 +120,148 @@ main {
     width: 100%;
     font-size: 1.1rem;
     font-weight: 700;
+    color: var(--text-dark);
 }
 
-/* 6. PAINEL DE RESULTADO */
+.unit {
+    color: var(--text-muted);
+    font-weight: 600;
+    font-size: 0.8rem;
+}
+
+/* PAINEL DA DIREITA (RESULTADO) */
 #resultado {
     background-color: var(--white);
-    border-radius: 30px;
-    padding: 40px 20px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.03);
+    border-radius: 40px;
+    padding: 60px;
+    box-shadow: 0 40px 100px rgba(0,0,0,0.03);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    text-align: center;
+    width: 100%;
 }
 
 #get-valor {
     color: var(--primary-blue);
-    font-size: 4rem; /* Tamanho seguro para celular */
+    font-size: 8rem;
     font-weight: 900;
-    letter-spacing: -2px;
+    letter-spacing: -4px;
     line-height: 1;
 }
 
-/* 7. BOTÃO */
+.label-resultado {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 700;
+    font-size: 0.7rem;
+    margin-bottom: 10px;
+}
+
 button {
     background-color: var(--primary-blue);
     color: white;
     border: none;
-    padding: 20px;
+    padding: 22px;
     border-radius: 16px;
     font-weight: 800;
     text-transform: uppercase;
+    letter-spacing: 1px;
     cursor: pointer;
-    transition: transform 0.2s;
+    box-shadow: 0 10px 20px rgba(0, 97, 242, 0.2);
+    transition: all 0.3s ease;
 }
 
-button:active { transform: scale(0.98); }
-
-/* 8. MEDIA QUERIES PARA DESKTOP (A PARTIR DE 900PX) */
-@media (min-width: 900px) {
-    body { padding: 40px 0; }
-
-    .marca-topo { text-align: left; }
-
-    main {
-        grid-template-columns: 400px 1fr; /* Divide em duas colunas */
-        gap: 30px;
-    }
-
-    #formulario-saude { padding: 40px; }
-
-    #resultado {
-        padding: 60px;
-        border-radius: 40px;
-    }
-
-    #get-valor {
-        font-size: 8rem; /* Volta ao tamanho gigante no monitor */
-        letter-spacing: -4px;
-    }
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 30px rgba(0, 97, 242, 0.3);
 }
 
-/* 9. RODAPÉ */
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 5px 10px rgba(0, 97, 242, 0.2);
+}
+
+.header-interno h1 {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: var(--text-dark);
+    letter-spacing: -1px;
+}
+
+.header-interno p {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.grid-duplo {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.gender-selector {
+    display: flex;
+    background-color: #e2e8f0;
+    padding: 5px;
+    border-radius: 12px;
+}
+
+.btn-gender {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: none;
+    background: transparent;
+    color: var(--text-muted);
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: none;
+    text-transform: none;
+    transition: all 0.2s ease;
+}
+
+.btn-gender:hover {
+    background-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Estilo para quando o JS adicionar a classe 'active' */
+.btn-gender.active {
+    background-color: var(--white) !important;
+    color: var(--primary-blue) !important;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05) !important;
+    transform: scale(1.02);
+}
+
+.select-wrapper select {
+    width: 100%;
+    background-color: #e2e8f0;
+    border: none;
+    padding: 15px;
+    border-radius: 12px;
+    font-weight: 700;
+    color: var(--text-dark);
+    appearance: none;
+}
+
 footer {
-    margin-top: auto;
-    padding: 20px;
-    font-size: 0.8rem;
+    color: black;
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    margin-top: 20px;
     text-align: center;
 }
+
+.footer-nome {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+    letter-spacing: 0.04em;
 }
