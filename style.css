@@ -7,7 +7,6 @@
     --white: #ffffff;
 }
 
-/* CORREÇÃO CRITICAL: Impede que padding e bordas "estourem" o tamanho dos elementos */
 * {
     margin: 0;
     padding: 0;
@@ -22,7 +21,7 @@ body {
     flex-direction: column;
     align-items: center;
     /* Ajuste de padding: 40px no topo/base, 15px nas laterais para não encostar no vidro do celular */
-    padding: 40px 15px; 
+    padding: 150px 200px; 
     overflow-x: hidden;
 }
 
@@ -103,6 +102,10 @@ main {
     #get-valor {
         font-size: 3.5rem !important;
     }
+    body {
+        padding: 120px 15px; 
+    }
+
 }
 
 .input-wrapper {
@@ -261,7 +264,7 @@ footer {
 }
 
 .footer-nome {
-    font-family: 'Playfair Display', serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 600;
     letter-spacing: 0.04em;
 }
